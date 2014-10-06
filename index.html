@@ -51,23 +51,13 @@
             <source src="static/video/house.mp4" type="video/mp4">
         </video>
 
-        <!-- <video autoplay loop poster="static/images/photos/video-guesthouse.jpg" class="video video-2">
-            <source src="static/video/guesthouse.webm" type="video/webm">
-            <source src="static/video/guesthouse.mp4" type="video/mp4">
-        </video>
-
-        <video autoplay loop poster="static/images/photos/video-land.jpg" class="video video-3">
-            <source src="static/video/land.webm" type="video/webm">
-            <source src="static/video/land.mp4" type="video/mp4">
-        </video> -->
-
         <div class="inner">
             <h2>Смотрите сами</h2>
         </div>
         <div class="video-switch-holder">
-            <div id="video-1" class="video-switch-item selected">Уютный гостевой <br /> дом-баня</div>
-            <div id="video-2" class="video-switch-item">Баня, гараж, беседка и <br /> детская площадка</div>
-            <div id="video-3" class="video-switch-item">Авторский проект <br /> дизайна участка</div>
+            <div id="video-1" class="video-switch-item selected">Двухэтажный дом <br > с террасой</div>
+            <div id="video-2" class="video-switch-item">Авторский проект <br /> дизайна участка</div>
+            <div id="video-3" class="video-switch-item">Баня, гараж, беседка и <br /> детская площадка</div>
         </div>
     </section>
 
@@ -286,16 +276,38 @@
         };
     });
 
-    // Video switching
+    // Video parts start time
+    var startPart1 = 0,
+        startPart2 = 5.9,
+        startPart3 = 12.7;
+
+    // Jump to video
     $('.video-switch-item').on('click', function(){
         var el = $(this),
-            id = el.attr('id');
+            id = el.attr('id'),
+            video = $('.video')[0];
         el.addClass('selected').siblings().removeClass('selected');
-        $('.video.' + id).addClass('active').siblings('.video').removeClass('active');
+        if (id == 'video-1') {
+            video.currentTime = startPart1;
+        } else if (id == 'video-2') {
+            video.currentTime = startPart2;
+        } else if (id == 'video-3') {
+            video.currentTime = startPart3;
+        }; 
     });
-    if($('.video-1')[0].currentTime = 2){
-        console.log()
-    };
+
+    // Video thumbnail switching
+    $('.video').on('timeupdate', function() {
+        var video = $(this)[0],
+            currentTime = video.currentTime;
+        if(currentTime < startPart2) {
+            $('#video-1').addClass('selected').siblings().removeClass('selected');
+        } else if(startPart2 <= currentTime && currentTime < startPart3) {
+            $('#video-2').addClass('selected').siblings().removeClass('selected');
+        } else if(startPart3 <= currentTime) {
+            $('#video-3').addClass('selected').siblings().removeClass('selected');
+        };
+    });
 
     // Photo switching
     $('.thumbnail').on('click', function(){
@@ -307,32 +319,6 @@
         thisCarousel.find('.active-photo').attr('src', path)
         thisCarousel.find('.photo-caption').text(caption);
     });
-
-    // var video = document.getElementsByTagName("video")[0];
-    // video.currentTime = 4;
-
-    // video.addEventListener("timeupdate", function() {
-    // if (video.currentTime >= 4) {
-    // console.log('4 сек')
-    // }}, false);
-
-
-
-    $('.video').on('timeupdate', function() {
-        var video = $(this)[0],
-            currentTime = video.currentTime;
-
-        if(currentTime <= 2) {
-            $('#video-1').addClass('selected').siblings().removeClass('selected');
-        } else if(currentTime <= 4) {
-            $('#video-2').addClass('selected').siblings().removeClass('selected');
-        } else if(currentTime <= 5) {
-            $('#video-3').addClass('selected').siblings().removeClass('selected');
-        };
-    });
-    
-
-
     $('.thumbnail.selected').click();
 
     // Navigation scrolling

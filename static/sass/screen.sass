@@ -276,6 +276,7 @@ a, .fake-link
         text-align: center
         padding-top: 65px
 .video
+    background: url(../images/photos/video-house.jpg) no-repeat center top white
     +background-size(cover)
     display: none
     width: 100%
@@ -288,12 +289,6 @@ a, .fake-link
     z-index: 1
     &.active
         display: block
-    &.video-1
-        background: url(../images/photos/video-house.jpg) no-repeat center top white
-    &.video-2
-        background: url(../images/photos/video-guesthouse.jpg) no-repeat center top white
-    &.video-3
-        background: url(../images/photos/video-land.jpg) no-repeat center top white
 .video-switch-holder
     background: white
     background: rgba(white,.8)
@@ -319,7 +314,6 @@ a, .fake-link
     &.selected
         color: white
         background: $red-color
-        pointer-events: none
 
 
 // Photos
