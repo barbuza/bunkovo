@@ -29,7 +29,7 @@ $icons-hd                  : sprite-map("icons-hd/*.png")
 @mixin retina($image_name, $w: auto, $h: auto, $extention: '.png') // Usage: +retina('cream_pixels', 160px, 160px)
     background-image: image_url($image_name + $extention)
     $x2img: $image_name + '@2x' + $extention
-    @media all and (-webkit-min-device-pixel-ratio: 1.5) 
+    @media all and (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)
         background-image: image_url($x2img)
         background-size: $w $h
 
