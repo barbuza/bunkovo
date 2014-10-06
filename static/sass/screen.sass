@@ -1,0 +1,537 @@
+// Imports
+@import "compass/reset"
+@import "compass/css3/user-interface"
+@import "compass"
+
+
+// Variables
+$super-small-font-size     : 12px
+$small-font-size           : 14px
+$body-font-size            : 16px
+$small-sub-title-font-size : 18px
+$sub-title-font-size       : 20px
+$small-title-font-size     : 25px
+$title-font-size           : 30px
+$huge-title-font-size      : 40px
+
+$red-color                 : #2843b8
+$red-color-hover           : adjust-lightness($red-color, -5%)
+$blue-color              : #37a8ab
+$blue-color-hover        : adjust-lightness($blue-color, -5%)
+$main-dark-color           : #181f30
+$main-sub-color            : #b2cce1
+$border-color: #abb7cf
+$icons                  : sprite-map("icons/*.png", $layout: smart)
+$icons-hd               : sprite-map("icons-hd/*.png")
+
+
+// Mixins
+@mixin retina($image_name, $w: auto, $h: auto, $extention: '.png') // Usage: +retina('cream_pixels', 160px, 160px)
+    background-image: image_url($image_name + $extention)
+    $x2img: $image_name + '@2x' + $extention
+    @media all and (-webkit-min-device-pixel-ratio: 1.5) 
+        background-image: image_url($x2img)
+        background-size: $w $h
+
+// Icons
+i
+    background: $icons
+    display: inline-block
+    @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)
+        background: $icons-hd
+        +background-size(image-width(sprite-path($icons)) auto)
+@each $icon in sprite_names($icons)
+    .icn-#{$icon}
+        +sprite-dimensions($icons, $icon)
+        background-position: sprite-position($icons, $icon)
+        @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)
+            $offset: nth(sprite-position($icons-hd, $icon), 2) / 2
+            background-position: 0 $offset
+
+
+// Custom fonts
+@font-face 
+    font-family: 'pf_agora_slab_prolight'
+    src: url('../fonts/pfagoraslabpro-light.eot')
+    src: url('../fonts/pfagoraslabpro-light.eot?#iefix') format('embedded-opentype'), url('../fonts/pfagoraslabpro-light.woff') format('woff'), url('../fonts/pfagoraslabpro-light.ttf') format('truetype'), url('../fonts/pfagoraslabpro-light.svg#pf_agora_slab_prolight') format('svg')
+    font-weight: normal
+    font-style: normal
+@media screen and (-webkit-min-device-pixel-ratio:0)
+    @font-face 
+        font-family: 'pf_agora_slab_prolight'
+        src: url('../fonts/pfagoraslabpro-light.svg#pf_agora_slab_prolight') format('svg')
+
+@font-face 
+    font-family: 'pf_agora_slab_promedium'
+    src: url('../fonts/pfagoraslabpro-medium.eot')
+    src: url('../fonts/pfagoraslabpro-medium.eot?#iefix') format('embedded-opentype'), url('../fonts/pfagoraslabpro-medium.woff') format('woff'), url('../fonts/pfagoraslabpro-medium.ttf') format('truetype'), url('../fonts/pfagoraslabpro-medium.svg#pf_agora_slab_promedium') format('svg')
+    font-weight: bold
+    font-style: normal
+@media screen and (-webkit-min-device-pixel-ratio:0)
+    @font-face 
+        font-family: 'pf_agora_slab_promedium'
+        src: url('../fonts/pfagoraslabpro-medium.svg#pf_agora_slab_promedium') format('svg')
+        
+
+
+// Basic styles
+*
+    +box-sizing(border-box)
+html
+    -webkit-font-smoothing: antialiased
+    -webkit-text-size-adjust: 100%
+    font-family: 'pf_agora_slab_prolight', sans-serif
+    font-size: $body-font-size
+    color: $main-dark-color
+    background: white
+body
+    padding-top: 60px
+.inner
+    width: 960px
+    margin: 0 auto
+    position: relative
+
+
+// Text styles
+.light-font
+    font-family: 'pf_agora_slab_prolight', sans-serif
+    font-weight: normal
+.medium-font
+    font-family: 'pf_agora_slab_promedium', sans-serif
+    font-weight: bold
+a, .fake-link
+    +link-colors($red-color, $red-color-hover)
+    text-decoration: none
+    outline: none
+    border-bottom: solid 1px transparent
+    cursor: pointer
+.blue-color
+    color: $blue-color
+.common-header
+    font-size: $huge-title-font-size
+    padding-top: 50px
+.common-sub-header
+    font-size: $small-sub-title-font-size
+    line-height: 1.2em
+    padding-top: 15px
+
+
+// Header & navigation
+.main-header
+    @extend .no-flick
+    text-align: right
+    background: white
+    width: 100%
+    height: 60px
+    padding-top: 10px
+    +box-shadow(rgba(black,.2) 0 1px 15px)
+    position: fixed
+    top: 0
+    left: 0
+    z-index: 5
+.nav-link
+    font-size: $small-sub-title-font-size
+    color: $main-dark-color
+    display: inline-block
+    margin-right: 10px
+    padding: 10px 15px
+.nav-logo
+    font-size: $small-title-font-size
+    color: $main-dark-color
+    float: left
+    margin-top: -3px
+    padding-left: 0
+.contact-btn
+    color: white
+    background: $blue-color
+    +border-radius(3px)
+    cursor: pointer
+    &:hover
+        color: white
+        background: $blue-color-hover
+
+
+// Video popup
+.video-popup
+    background: black
+    background: rgba(black,.9)
+    position: fixed
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    z-index: 10
+    &:before
+        content: ''
+        @extend i
+        @extend .icn-close-popup
+        position: absolute
+        top: 20px
+        right: 20px
+        z-index: 2
+.popup-video-holder
+    text-align: center
+    background: url(../images/loading.gif) no-repeat center center
+    +background-size(40px, 40px)
+    width: 854px
+    height: 480px
+    margin-top: -240px
+    margin-left: -427px
+    position: absolute
+    top: 50%
+    left: 50%
+
+
+// Sections
+.section
+    width: 100%
+    position: relative
+
+
+// Welcome
+.welcome-section
+    background: url(../images/photos/welcome-1.jpg) no-repeat center center
+    +background-size(cover)
+.welcome-holder
+    text-align: center
+    background: white
+    background: rgba(white,.9)
+    width: 100%
+    max-width: 750px
+    margin: 0 auto
+    padding: 85px 50px
+    h2
+        font-size: $title-font-size
+        line-height: 1.1em
+        padding: 45px 50px 0
+    h3
+        background: white
+        background: rgba(white,.6)
+        display: block
+        margin-top: 45px
+        padding: 10px 0
+        +border-radius(5px)
+.logo
+    +retina('logo', image-width('logo.png'), image-height('logo.png'))
+    display: block
+    clear: both
+    width: image-width('logo.png')
+    height: image-height('logo.png')
+    margin: 0 auto
+.watch-btn
+    font-size: $small-sub-title-font-size
+    color: white
+    background: $red-color
+    display: inline-block
+    margin-top: 25px
+    padding: 15px 25px
+    +border-radius(3px)
+    cursor: pointer
+    &:hover
+        background: $red-color-hover
+
+=follow-me
+    0%
+        bottom: 20px
+    25%
+        bottom: 15px
+    100%
+        bottom: 20px
+
+@-webkit-keyframes follow-me
+    +follow-me
+@-moz-keyframes follow-me
+    +follow-me
+@keyframes follow-me
+    +follow-me
+.icn-arrow-down
+    +animation-duration(0.7s)
+    +animation-iteration-count(infinite)
+    +animation-name(follow-me)
+    +animation-timing-function(linear)
+    margin-left: -20px
+    position: absolute
+    bottom: 15px
+    left: 50%
+
+
+// Video presentation
+.video-section
+    @extend .no-flick
+    background: white
+    height: 0
+    padding-top: 56.25%
+    overflow: hidden
+    position: relative
+    z-index: 6
+    .inner
+        margin-top: -56.25%
+        position: relative
+        z-index: 2
+    h2
+        @extend .medium-font
+        font-size: $huge-title-font-size
+        color: white
+        text-shadow: 0 0 10px rgba(black,.5)
+        text-align: center
+        padding-top: 65px
+.video
+    +background-size(cover)
+    display: none
+    width: 100%
+    height: 100%
+    position: absolute
+    top: -1px
+    right: 0
+    bottom: 0
+    left: 0
+    z-index: 1
+    &.active
+        display: block
+    &.video-1
+        background: url(../images/photos/video-house.jpg) no-repeat center top white
+    &.video-2
+        background: url(../images/photos/video-guesthouse.jpg) no-repeat center top white
+    &.video-3
+        background: url(../images/photos/video-land.jpg) no-repeat center top white
+.video-switch-holder
+    background: white
+    background: rgba(white,.8)
+    text-align: center
+    padding: 15px 0
+    position: absolute
+    right: 0
+    bottom: 50px
+    left: 0
+    z-index: 3
+.video-switch-item
+    font-size: $small-sub-title-font-size
+    color: $red-color
+    display: inline-block
+    max-width: 220px
+    margin: 0 5px
+    padding: 15px
+    border: solid 1px transparent
+    +border-radius(5px)
+    cursor: pointer
+    &:hover
+        border-color: rgba(black,.1)
+    &.selected
+        color: white
+        background: $red-color
+        pointer-events: none
+
+
+// Photos
+.photos-section
+    background: white
+    padding: 40px 0
+.photo-carousel
+    margin-top: 20px
+    padding-bottom: 30px
+    border-bottom: solid 1px $border-color
+    &:last-child
+        border: none
+.active-photo-holder
+    float: left
+    width: 70%
+    position: relative
+.photo-caption
+    color: white
+    background: rgba(black,.35)
+    padding: 15px 20px
+    position: absolute
+    right: 0
+    bottom: 0
+    left: 0
+.thumbnails-holder
+    float: left
+    width: 28%
+.active-photo
+    display: block
+    max-width: 100%
+.thumbnail
+    display: block
+    float: left
+    max-width: 50%
+    margin-bottom: 2px
+    border-left: solid 2px white
+    position: relative
+    cursor: pointer
+    &.selected, &:hover
+        +opacity(.2)
+
+
+// About
+.about-section
+    background: #f2f2f2
+    padding-bottom: 35px
+.col-1-4
+    float: left
+    width: 25%
+.details
+    font-size: $small-font-size
+    display: block
+    margin-top: 35px
+.about-holder
+    margin-top: -10px
+.about
+    @extend .medium-font
+    font-size: $small-sub-title-font-size
+    margin-top: 40px
+    padding-left: 55px
+    position: relative
+    i
+        content: ''
+        position: absolute
+        top: -2px
+        left: 0
+    &.num
+        &:before
+            content: attr(rel)
+            font-size: $huge-title-font-size
+            color: $red-color
+            position: absolute
+            left: 0
+            top: -3px
+        &:after
+            content: '|'
+            font-size: $huge-title-font-size
+            color: rgba($blue-color,.2)
+            position: absolute
+            left: 33px
+            top: -3px
+            z-index: 2
+.hor-splitter
+    background: white
+    background: rgba(white,.6)
+    width: 100%
+    height: 1px
+    margin: 30px 0 0
+
+
+// Details
+.section-details
+    padding-bottom: 35px
+    .inner
+        +retina('docs', image-width('docs.jpg'), image-height('docs.jpg'), '.jpg')
+        background-position: right 130px
+        background-repeat: no-repeat
+.details-holder
+    padding-top: 5px
+    padding-bottom: 35px
+    border-bottom: solid 1px $border-color
+.detail
+    @extend .medium-font
+    font-size: $small-sub-title-font-size
+    margin-top: 15px
+    padding-left: 55px
+    position: relative
+    &:before
+        content: '✓'
+        color: $red-color
+        position: absolute
+        top: 0
+        left: 28px
+.form-owner
+    margin-top: 40px
+    position: relative
+    z-index: 2
+    &:after
+        content: ''
+        background: #f2f2f2
+        +rotate(1deg)
+        +box-shadow(rgba(black,.3) 0 1px 5px)
+        position: absolute
+        top: 0
+        right: 0
+        bottom: 0
+        left: 0
+        z-index: -1 
+.text-holder
+    background: white
+    padding: 0px 53px 45px
+    +box-shadow(rgba(black,.25) 0 1px 5px)
+    position: relative
+    z-index: 2
+
+
+
+// Price
+.price-section
+    @extend .medium-font
+    color: white
+    text-align: center
+    background: $blue-color
+    padding-bottom: 45px
+
+
+// Map
+.map-section
+    background: #f2f2f2
+    padding-bottom: 35px
+    .map
+        margin-top: 25px
+
+
+// Contacts
+.contacts-section
+    padding: 100px 0
+.contacts
+    margin-top: 20px
+.phone-number
+    @extend .medium-font
+    font-size: $title-font-size
+    color: $main-dark-color
+    display: inline-block
+    padding-bottom: 7px
+.owner-photo
+    +retina('owner', image-width('owner.jpg'), image-height('owner.jpg'), '.jpg')
+    display: block
+    clear: both
+    width: image-width('owner.jpg')
+    height: image-height('owner.jpg')
+    margin: 0 auto
+.call-back-holder
+    background: #f2f2f2
+    width: 400px
+    margin: 50px auto 0
+    padding: 25px 30px
+    p
+        line-height: 1.2em
+    input
+        font-size: $sub-title-font-size
+        text-align: center
+        background: white
+        width: 100%
+        margin-top: 10px
+        padding: 5px 15px
+        outline: none
+        border: none
+        +border-radius(5px)
+    .contact-btn
+        margin-top: 10px
+        padding: 10px 15px
+
+    
+// Helpers
+.no-flick
+    -webkit-transform: translate3d(0,0,0)
+%group, .group
+    &:after
+        content: ''
+        display: table
+        clear: both
+.hide
+    display: none !important
+.align-center
+    text-align: center
+.align-right
+    text-align: right
+.float-left
+    float: left
+
+
+
+
+
