@@ -1,21 +1,11 @@
-.rvmrc
-.ruby-gemset
-.ruby-version
-.idea
-.bundle
-db/*.sqlite3
-db/schema.rb
-log/*.log
-tmp/**/*
-config/database.yml
-public/system/**/*
-*~
-index/**/*
-.DS_Store
-vendor/gems/**/*
-vendor/ruby/**/*
-public/stylesheets/all.css
-public/ckeditor_assets
-coverage
-previews
-public/feedback-images/*.jpg
+# Sass Cache #
+###################
+*.sassc
+*.scssc
+
+# _note Folder #
+###################
+/_notes
+*/_notes
+*/_notes/
+*/_notes/*.xml
