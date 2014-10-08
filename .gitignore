@@ -1,11 +1,3 @@
-# Sass Cache #
-###################
-*.sassc
-*.scssc
-
-# _note Folder #
-###################
-/_notes
-*/_notes
-*/_notes/
-*/_notes/*.xml
+/.sass-cache
+/static/images/icons-*.png
+/static/stylesheets/screen.css
