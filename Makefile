@@ -16,8 +16,9 @@ clean:
 	@rm -rf static/stylesheets/screen.css
 
 prepare-static: clone-static
-	@cd bunkovo.github.io && git checkout .
-	@cd bunkovo.github.io && git clean -fdx
+	@$(git-static) checkout .
+	@$(git-static) clean -fdx
+	@$(git-static) pull
 
 clone-static:
 	@if test ! -d bunkovo.github.io; then git clone git@github.com:bunkovo/bunkovo.github.io.git; fi
