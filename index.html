@@ -12,6 +12,16 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+
     <header class="main-header">
         <div class="inner">
             <nav class="main-nav">
@@ -25,9 +35,10 @@
         </div>
     </header>
 
-    <div class="video-popup hide">
-        <div class="popup-video-holder">
-        </div>
+
+    <div class="tickets-holder">
+        <span>Мы разыгрываем два авиабилета в Париж за пост в Facebook, который приведет покупателя дома!</span>
+        <div class="fb-share-button" data-href="http://bunkovo.club" data-layout="button"></div>
     </div>
 
 
@@ -37,29 +48,23 @@
             <div class="welcome-holder">
                 <div class="logo"></div>
                 <h2>Продаем уютный загородный дом с участком в&nbsp;тихом коттеджном поселке под Истрой, напрямую от собственника.</h2>
-                <span class="watch-btn j-video-popup-start">Смотреть видео</span>
-                <h3>С возможностью прописки!</h3>
+                <div class="short-info group">
+                    <div class="col">
+                        <ul>
+                            <li>В 30 минутах от МКАД</li>
+                            <li>Площадь участка: 15 соток</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul>
+                            <li>Дом площадью 220 м<sup>2</sup></li>
+                            <li>С возможностью прописки</li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="popup-video"></div>
                 <i class="icn-arrow-down"></i>
             </div>
-        </div>
-    </section>
-
-
-    <!-- Video presentation -->
-    <section class="section video-section">
-
-        <video autoplay loop poster="static/images/photos/video-house.jpg" class="video video-1 active">
-            <source src="static/video/house.webm" type="video/webm">
-            <source src="static/video/house.mp4" type="video/mp4">
-        </video>
-
-        <div class="inner">
-            <h2>Смотрите сами</h2>
-        </div>
-        <div class="video-switch-holder">
-            <div id="video-1" class="video-switch-item selected">Двухэтажный дом <br > с террасой</div>
-            <div id="video-2" class="video-switch-item">Авторский проект <br /> дизайна участка</div>
-            <div id="video-3" class="video-switch-item">Баня, гараж, беседка и <br /> детская площадка</div>
         </div>
     </section>
 
@@ -252,65 +257,28 @@
 </body>
 
 <script>
-    var video = '<iframe id="popup-video" width="853" height="480" src="//www.youtube-nocookie.com/embed/E4FcMfjcbhI?rel=0&autoplay=1" frameborder="0" allowfullscreen></iframe>';
 
-    // Show popup 
-    $('.j-video-popup-start').on('click', function(){
-        $('.video-popup').removeClass('hide');
-        $('.popup-video-holder').append(video);
-    });
+    var tag = document.createElement('script');
+        tag.src = "http://www.youtube.com/player_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    // Close popup function
-    function hideVideoPopup(){
-        $('.video-popup').addClass('hide');
-        $('#popup-video').remove();
-    };
+    var player;
+    function onYouTubePlayerAPIReady() {
+        player = new YT.Player('popup-video', {
+            playerVars: { 'autoplay': 1, 'controls': 1,'autohide':1,'wmode':'opaque', 'rel': 0 },
+            videoId: 'ns3M98kRU84',
+            events: {
+                'onReady': onPlayerReady
+            }
+        });
+    }
 
-    // Close popup on click
-    $('.video-popup').on('click', function(){
-        hideVideoPopup();
-    });
+    function onPlayerReady(event) {
+        event.target.mute();
+    }
 
-    // Close popup on esc
-    $(document).on('keydown', function(e){
-        if (e.keyCode === 27){ 
-            hideVideoPopup();            
-        };
-    });
-
-    // Video parts start time
-    var startPart1 = 0,
-        startPart2 = 5.9,
-        startPart3 = 12.7;
-
-    // Jump to video
-    $('.video-switch-item').on('click', function(){
-        var el = $(this),
-            id = el.attr('id'),
-            video = $('.video')[0];
-        el.addClass('selected').siblings().removeClass('selected');
-        if (id == 'video-1') {
-            video.currentTime = startPart1;
-        } else if (id == 'video-2') {
-            video.currentTime = startPart2;
-        } else if (id == 'video-3') {
-            video.currentTime = startPart3;
-        }; 
-    });
-
-    // Video thumbnail switching
-    $('.video').on('timeupdate', function() {
-        var video = $(this)[0],
-            currentTime = video.currentTime;
-        if(currentTime < startPart2) {
-            $('#video-1').addClass('selected').siblings().removeClass('selected');
-        } else if(startPart2 <= currentTime && currentTime < startPart3) {
-            $('#video-2').addClass('selected').siblings().removeClass('selected');
-        } else if(startPart3 <= currentTime) {
-            $('#video-3').addClass('selected').siblings().removeClass('selected');
-        };
-    });
-
+    
     // Photo switching
     $('.thumbnail').on('click', function(){
         var el = $(this),

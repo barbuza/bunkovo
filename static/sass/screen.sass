@@ -114,6 +114,9 @@ a, .fake-link
     font-size: $small-sub-title-font-size
     line-height: 1.2em
     padding-top: 15px
+sup
+    font-size: .5em
+    vertical-align: super
 
 
 // Header & navigation
@@ -151,47 +154,33 @@ a, .fake-link
         background: $blue-color-hover
 
 
-// Video popup
-.video-popup
-    background: black
-    background: rgba(black,.9)
-    position: fixed
-    top: 0
-    right: 0
-    bottom: 0
-    left: 0
-    z-index: 10
-    &:before
-        content: ''
-        @extend i
-        @extend .icn-close-popup
-        position: absolute
-        top: 20px
-        right: 20px
-        z-index: 2
-.popup-video-holder
-    text-align: center
-    background: url(../images/loading.gif) no-repeat center center
-    +background-size(40px, 40px)
-    width: 854px
-    height: 480px
-    margin-top: -240px
-    margin-left: -427px
-    position: absolute
-    top: 50%
-    left: 50%
-
-
 // Sections
 .section
     width: 100%
     position: relative
 
 
+.tickets-holder
+    font-size: $small-sub-title-font-size
+    color: white
+    text-align: center
+    background: $main-dark-color
+    width: 100%
+    padding: 10px 0
+    +box-shadow(rgba(black,.2) 0 -1px 15px)
+    position: fixed
+    right: 0
+    bottom: 0
+    z-index: 3
+    span
+        margin-right: 10px
+
+
 // Welcome
 .welcome-section
     background: url(../images/photos/welcome-1.jpg) no-repeat center center
     +background-size(cover)
+    z-index: 4
 .welcome-holder
     text-align: center
     background: white
@@ -199,11 +188,11 @@ a, .fake-link
     width: 100%
     max-width: 750px
     margin: 0 auto
-    padding: 85px 50px
+    padding: 50px 50px 60px
     h2
         font-size: $title-font-size
         line-height: 1.1em
-        padding: 45px 50px 0
+        padding: 35px 50px 0
     h3
         background: white
         background: rgba(white,.6)
@@ -211,6 +200,29 @@ a, .fake-link
         margin-top: 45px
         padding: 10px 0
         +border-radius(5px)
+.short-info
+    background: white
+    margin: 25px 0
+    padding: 12px 30px 20px
+    border: dashed 1px #c5001b
+    +border-radius(3px)
+    .col
+        float: left
+        width: 50%
+        &:last-child
+            ul
+                text-align: left
+                border: none
+    ul
+        text-align: right
+        padding: 0 15px
+        border-right: solid 1px #c5001b
+    li
+        @extend .medium-font
+        font-size: $small-sub-title-font-size
+        display: block
+        margin-top: 7px
+        position: relative
 .logo
     +retina('logo', image-width('logo.png'), image-height('logo.png'))
     display: block
@@ -218,18 +230,6 @@ a, .fake-link
     width: image-width('logo.png')
     height: image-height('logo.png')
     margin: 0 auto
-.watch-btn
-    font-size: $small-sub-title-font-size
-    color: white
-    background: $red-color
-    display: inline-block
-    margin-top: 25px
-    padding: 15px 25px
-    +border-radius(3px)
-    cursor: pointer
-    &:hover
-        background: $red-color-hover
-
 =follow-me
     0%
         bottom: 20px
